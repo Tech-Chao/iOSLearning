@@ -8,3 +8,9 @@ iOS个人学习手册，汇集开发过程中的总结。
 
 ## 源码阅读 | Libraries
 [Aspects](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%20%7C%20Libraries/Aspects%20%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A3.md)
+
+## 持续集成 | CI
+
+### [Fastlane使用手册](https://github.com/PhoenixiOSer/iOSLearningManual/tree/master/CI/fastlane%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C)
+
+[Fastlane使用手册——（一）Fastlane介绍及安装](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/CI/fastlane%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%20Fastlane%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C%E2%80%94%E2%80%94%EF%BC%88%E4%B8%80%EF%BC%89Fastlane%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%AE%89%E8%A3%85.md)
