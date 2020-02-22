@@ -14,13 +14,20 @@ fastlane 2.138.0
 
 ## 2.安装
 
-1. 首先需要安装最新`Xcode command line tools`
+1. 首先需要安装最新`Xcode command line tools`，在终端输入：
 
 ```
 xcode-select --install
 ```
+在安装完成后可以在次输入`xcode-select --instal`检查是否安装成功。
 
-2.安装`fastlane`,有两种安装方法，第一种使用`RubyGems`。第二种使用`Homebrew`。文章以 `RubyGems` 为例。`Homebrew`安装的请先自行搜索安装。
+```
+$ xcode-select --install 
+// 提示已安装
+xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+```
+
+2.接下来安装`fastlane`。安装`fastlane`有两种安装方法，第一种使用`RubyGems`。第二种使用`Homebrew`。文章以 `RubyGems` 为例。`Homebrew`安装的可以自行搜索安装。
 
 ```
 # 1.Using RubyGems
@@ -33,11 +40,11 @@ brew cask install fastlane
 
 ### 2.1 系统 ruby 安装fastlane
 
-因 Mac 电脑系统自带 ruby 环境，所以你可能可以直接执行安装代码 `sudo gem install fastlane -NV`,但直接使用系统安装可能会碰到一些权限的小问题，解决方案可参考下文 **问题**。
+因 Mac 电脑系统自带 ruby 环境，所以你可以直接执行安装代码 `sudo gem install fastlane -NV`,但直接使用系统安装可能会碰到一些权限的小问题，解决方案可参考下文 **问题**。
  笔者更推荐使用自己的`ruby`环境进行安装。（详见 2.2自定义ruby安装fastlane）。
 
 ### 2.2 非系统 ruby 安装 fastlane
-比较推荐的安装方法：使用`RVM`来安装非系统版本的 ruby，详见[https://ruby-china.org/wiki/rvm-guide](https://ruby-china.org/wiki/rvm-guide)
+我们可以使用`RVM`来管理、安装不同版本的 ruby，详见[https://ruby-china.org/wiki/rvm-guide](https://ruby-china.org/wiki/rvm-guide)。切换到自定义的 ruby 进行安装 fastlane 。
 
 ```
 rvm安装 
