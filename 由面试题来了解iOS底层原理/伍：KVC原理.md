@@ -67,7 +67,7 @@ age is :1
 - 如果以上两个方法都不存在会根据`+ (BOOL)accessInstanceVariablesDirectly` 返回值做处理（默认返回YES）。
 	- 如果`accessInstanceVariablesDirectly `方法返回`NO`,调用`setValue:forUndefinedKey:`并抛出异常`NSUnknownKeyException`	- 如果返回`YES`,会直接给成员变量 Key 赋值，按照`_<key>、_is<key>、<key>、is<Key>`的顺序赋值。最终如果未找到上述的任何一个成员变量，调用`setValue:forUndefinedKey:`并抛出异常`NSUnknownKeyException`
 
-![](/Users/gaolailong/Desktop/iOS 底层原理/图片3.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/KVO%20setter.png?raw=true)
 
 ## KVC valueForKey：实现
 
@@ -97,7 +97,7 @@ NSLog(@"取值:%@",[person valueForKey:@"age"]);
  	- 如果`accessInstanceVariablesDirectly `方法返回`NO`,调用`valueForUndefinedKey:` 方法,抛出Error `'NSUnknownKeyException'。
 	- 返回 YES，则按顺序搜索名为 `_<key>、_is<key>、<key>、is<Key>` 的实例变量，如果找到，则直接获取实例变量的值并将值转换成相应类型返回。如果未如找到上述的任何一个成员变量，调用 `valueForUndefinedKey:` 方法,抛出Error `'NSUnknownKeyException'。
 
-![](/Users/gaolailong/Desktop/iOS 底层原理/图片4.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/KVO%20getter.png?raw=true)
 
 ## KVC 补充
 

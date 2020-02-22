@@ -61,7 +61,7 @@ metaClass 对象在内存中存储的信息主要包括：
 - 类对象的 isa "指向" 元类对象。
 - 元类对象的 isa "指向" 根元类对象。
 
-![isa](/Users/gaolailong/Desktop/iOS 底层原理/23_7.png)
+![isa](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/isa%20%E6%8C%87%E9%92%88.png?raw=true)
 
 
 注意：从64位架构之后，"指向"并不是真正的指向，而是会通过 isa 指针指向的内存地址按位与（&）上 ISA_MASK(0x0000000ffffffff8ULL) ,得出真正的指向地址。

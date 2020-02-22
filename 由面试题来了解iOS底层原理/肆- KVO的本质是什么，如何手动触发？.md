@@ -37,7 +37,7 @@ KVO 之后的isa指针地址：Person NSKVONotifying_Person
 
 Person 的内部主要结构的如下：
 
-![](/Users/gaolailong/Desktop/iOS 底层原理/图片1.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/Person%E7%BB%93%E6%9E%84.png?raw=true)
 
 在 Person 中，存在 isa 指针指向元类、superClas 指向父类（NSObject）、对象方法 `setAge：、age`等。
 
@@ -75,7 +75,7 @@ _isKVOA
 - isa 会指向 `NSKVONotifying_Person `自己的元类。
 
 
-![](/Users/gaolailong/Desktop/iOS 底层原理/图片2.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/NSKVONotifying_Person%E7%BB%93%E6%9E%84.png?raw=true)
 
 
 ### NSKVONotifying_Person 中的 setAge: 方法
@@ -86,7 +86,7 @@ NSLog(@"KVO 之前的方法地址：%p %p", [p1 methodForSelector:@selector(setA
 NSLog(@"KVO 之后的方法地址：%p %p", [p1 methodForSelector:@selector(setAge:)], [p2 methodForSelector:@selector(setAge:)]);
 ```
 
-![](/Users/gaolailong/Desktop/iOS 底层原理/WX20200218-231315@2x.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/console%20print.png?raw=true)
 
 通过在 console 中 p 方法实现可以看到从原先的 `Person setAge:`变成调用 `Foundation` 框架的 `_NSSetIntValueAndNotify`函数(注意`_NSSetIntValueAndNotify `中的 Int 会根据被监听的属性类型不同而改变，如：`_NSSetDoubleValueAndNotify`)。
 
