@@ -79,7 +79,8 @@ AssociationsManagerAssociationsHashMapObjectAssociationMapObjcAssociation
 我们可以在 objc4 的源码中在`objc-references.mm`中找到上面的4个对象。
 
 下面是简化过的代码：
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/associatedObject@2x.png)
+
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/associatedObject@2x.png?raw=true)
 
 可以总结如下：
 - 存在一个全局统一的 `AssociationsManager` 对象，AssociationsManager 包含一个 `AssociationsHashMap`。
@@ -89,7 +90,7 @@ AssociationsManagerAssociationsHashMapObjectAssociationMapObjcAssociation
 
 所以我们可以认为所有的关联对象都是存放在`AssociationsManager` 中。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/associated_imp.png)
+![](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/associated_imp.png?raw=true)
 
 ### 关联对象 set
 调用关联对象设置值的时候`objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key,id _Nullable value, objc_AssociationPolicy policy)`，最终系统会调用：

@@ -107,5 +107,5 @@ void callInitialize(Class cls)
 添加关联对象void objc_setAssociatedObject(id object, const void * key,                                id value, objc_AssociationPolicy policy)获得关联对象id objc_getAssociatedObject(id object, const void * key)移除所有的关联对象void objc_removeAssociatedObjects(id object)
 ```
 
-更多AssociatedObject原理参考：[捌：AssociatedObject关联对象 原理]()
+更多AssociatedObject原理参考：[捌：AssociatedObject关联对象 原理](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8D%8C%EF%BC%9AAssociatedObject%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%8E%9F%E7%90%86.md)
 
