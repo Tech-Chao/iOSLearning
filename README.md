@@ -27,9 +27,13 @@ iOS个人学习手册，汇集开发过程中的总结。
 
 [伍：KVC原理](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E4%BC%8D%EF%BC%9AKVC%E5%8E%9F%E7%90%86.md)
 
-[陆：Category 实现原理（1）.md](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E9%99%86%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89.md)
+[陆：Category 实现原理（1）](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E9%99%86%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89.md)
 
-[柒：Category 实现原理（2）.md](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%9F%92%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89.md)
+[柒：Category 实现原理（2）](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%9F%92%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89.md)
 
-[捌：AssociatedObject关联对象原理.md](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E9%99%86%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89.md)
+[捌：AssociatedObject关联对象原理](https://github.com/PhoenixiOSer/iOSLearningManual/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E9%99%86%EF%BC%9ACategory%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89.md)
+
+[玖：Block 原理面试（1）](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E7%8E%96%EF%BC%9ABlock%20%E9%9D%A2%E8%AF%95%EF%BC%881%EF%BC%89.md)
+
+[拾：Block 原理面试（2）](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8B%BE%EF%BC%9ABlock%20%E9%9D%A2%E8%AF%95%EF%BC%882%EF%BC%89.md)
 
