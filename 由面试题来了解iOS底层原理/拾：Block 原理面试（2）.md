@@ -110,5 +110,3 @@ static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_objec
 - block 从栈到堆上的时候，会有一次 copy 操作，在 copy 操作的时`__main_block_copy_0 `函数会根据捕获外部变量的 `strong`、`weak`修饰，来直接对强/弱引用外部变量。
 - 如果捕获变量是 `__block` 修饰的，copy 到堆上的 block 会将变量转换成的结构体 copy 到堆上同时生成强引用，变量转换成的结构体自身对外部变量的强弱引用则是根据捕获变量时变量自身的强弱修饰符决定。
 - 如果堆上的 block 被销毁了，`__main_block_dispose_0 `会对 block 引用的变量进行 release 操作。
-
-
