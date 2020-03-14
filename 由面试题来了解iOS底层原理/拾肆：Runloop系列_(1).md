@@ -1,7 +1,7 @@
 # Runloop系列_(1)
 
 
-> 本文很大一部分内容来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)，网上很大一部分都是copy它的。本文也不例外。结合了MJ视频的内容
+> 本文很大一部分内容来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)，网上很大一部分都是copy ibireme 博主。本文结合了MJ视频同时借鉴了ibireme的文章内容。
 
 
 ## 入门
@@ -83,7 +83,7 @@ CFRunLoopRef CFRunLoopGetCurrent(void) {
 ```
 调用`CFRunLoopGetCurrent`函数获取当前`runloop`时，调用函数 `_CFRunLoopGet0 `传入当前的线程作为参数。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/cfrunloop_getcurrent.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/cfrunloop_getcurrent.png?raw=true)
 
 ### Runloop 结构
 
@@ -123,7 +123,7 @@ struct __CFRunLoopMode {
 
 其中`_sources0 ` 和 `_sources1 `的集合存放`CFRunLoopSourceRef`对象、`_observers` 数组存放 `CFRunLoopObserverRef`对象、`_timers`数组存放`CFRunLoopTimerRef`对象。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_struct.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_struct.png?raw=true)
 
 runloop 中包含多个 `Mode`，而每个`Mode`都有自己的`_sources0 `、`_sources1`、`_observers`、`_timers`，目前常用的 Mode 主要有两种：
 
@@ -135,7 +135,7 @@ runloop 中包含多个 `Mode`，而每个`Mode`都有自己的`_sources0 `、`_
 
 ## Runloop 运行逻辑
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_logic.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_logic.png?raw=true)
 
 以下代码摘自：[
 深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)
@@ -256,7 +256,7 @@ int CFRunLoopRunSpecific(runloop, modeName, seconds, stopAfterHandle) {
 ## runloop的休眠
 `runloop` 进入休眠时调用的函数是 `mach_msg()`,`mach_msg()` 函数实际上是调用了一个 Mach 陷阱 (trap)，即函数mach_msg_trap()，陷阱这个概念在 Mach 中等同于系统调用。当你在用户态调用 mach_msg_trap() 时会触发陷阱机制，切换到内核态；内核态中内核实现的 mach_msg() 函数会完成实际的工作，如下图：
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_mach_msg.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_mach_msg.png?raw=true)
 
 ## runloop 的唤醒
 
@@ -264,11 +264,11 @@ int CFRunLoopRunSpecific(runloop, modeName, seconds, stopAfterHandle) {
 
 - 触摸事件处理
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_source0_touches.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_source0_touches.png?raw=true)
 
 - `performSelector:onThread:`
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_source0_perform.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_source0_perform.png?raw=true)
 
 
 ### Source1 
@@ -280,10 +280,10 @@ Source1主要是基于 port 的线程间通信。
 
 - NSTimer的唤醒
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_timer.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_timer.png?raw=true)
 - performSelector:withObject:afterDelay:
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_afeterDealy.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_afeterDealy.png?raw=true)
 
 >小结一下：以下代码来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)
 
@@ -352,7 +352,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
 我们可以通过打印查看以系列的 runloop 状态：
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/runloop/runloop_state.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_state.png?raw=true)
 
 ## mainRunloop
 
