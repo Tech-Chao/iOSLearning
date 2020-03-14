@@ -4,6 +4,13 @@
 > 
 > 答：`__block`可以用于解决 block 内部无法修改auto变量值，`__block`不能也没必要修饰全局变量、静态变量（static）详见下文。
 > 
+> - 使用 block 的注意事项?如何解决循环引用?
+> 
+> 答： block 使用主要关注内存是否泄漏，block 容易造成循环引用，解决循环引用主要有两种：
+>
+>  1. 使用 `__weak`（推荐）、`__unsafe_retained`(不推荐)修饰被 block 的捕获的变量。
+> 2. 在block执行的代码块中，将捕获的变量重置为 nil，缺点是必须执行完 block 块才会解决循环引用。
+
 
 
 ## __block 的原理
@@ -18,7 +25,7 @@
 ```
 
 上述代码在 Xcode 中编译的时候就会报错，block 是无法直接修改外部 auto 变量。在不添加 `__weak`的情况下，static 的变量和全局变量也可以直接在 block 做出修改。
-是因为 static 变量传递给 block 的是变量的地址，全局变量则是一直存在内存中，block 都可以访问到外部变量并修改（详见[玖：Block 面试（1）-值捕获](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E7%8E%96%EF%BC%9ABlock%20%E9%9D%A2%E8%AF%95%EF%BC%881%EF%BC%89.md)）。
+是因为 static 变量传递给 block 的是变量的地址，全局变量则是一直存在内存中，block 都可以访问到外部变量并修改。详见[玖：Block 面试（1）-值捕获](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E7%8E%96%EF%BC%9ABlock%20%E5%8E%9F%E7%90%86%E9%9D%A2%E8%AF%95%EF%BC%881%EF%BC%89.md)。
 
 
 ### __block作用
@@ -100,7 +107,7 @@ static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_objec
 
 当 block 被 copy 到堆上的时候,栈上变量的`__forwarding` 被指向了堆中的结构体地址，以后无论从栈上还是堆上访问结构体都会访问到堆：
 
-![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/__forwarding_heap.png?raw=true)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/__forwarding_%20heap.png?raw=true)
 
 
 
