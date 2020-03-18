@@ -44,3 +44,9 @@ iOS个人学习手册，汇集开发过程中的总结。
 [拾贰：Runtime系列_(2)](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8B%BE%E8%B4%B0%EF%BC%9ARuntime%E7%B3%BB%E5%88%97_(2).md)
 
 [拾叁：Runtime系列_(3)](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8B%BE%E5%8F%81%EF%BC%9ARuntime%E7%B3%BB%E5%88%97_(3).md)
+
+[拾肆：Runloop系列](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8B%BE%E8%82%86%EF%BC%9ARunloop%E7%B3%BB%E5%88%97.md)
+
+[拾伍：weak指针工作原理](https://github.com/PhoenixiOSer/iOSLearning/blob/master/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/%E6%8B%BE%E4%BC%8D%EF%BC%9Aweak%E6%8C%87%E9%92%88%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.md)
+
+
