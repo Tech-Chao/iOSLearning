@@ -1,7 +1,7 @@
 # Runloop系列
 
 
-> 本文很大一部分内容来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)，网上很大一部分都是copy ibireme 博主。本文结合了MJ视频同时借鉴了ibireme的文章内容。
+> 本文很大一部分内容来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)。
 
 
 ## 入门
