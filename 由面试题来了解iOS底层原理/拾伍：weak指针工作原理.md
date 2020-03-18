@@ -24,7 +24,7 @@
 
 生成一个 p1 的 Person 实例对象，再创建一个 weakP 的弱指针，调试代码时在 Debug 中打开`Always show Disassembly`，值得我们关注的已经用红框标识。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/weak指针/objc_initWeak.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/weak%E6%8C%87%E9%92%88/objc_initWeak.png?raw=true)
 
 ## weak指针的存储
 
@@ -50,7 +50,7 @@ static id storeWeak(id *location, objc_object *newObj)
     
     Class previouslyInitializedClass = nil;
     id oldObj;
-	// 声明两个SideTable
+    // 声明两个SideTable
     SideTable *oldTable;
     SideTable *newTable;
 
@@ -68,13 +68,13 @@ static id storeWeak(id *location, objc_object *newObj)
     }
 
     SideTable::lockTwo<haveOld, haveNew>(oldTable, newTable);
-	// location 应该与 oldObj 保持一致，如果不同，说明当前的 location 已被修改，重新获取 oldTable
+    // location 应该与 oldObj 保持一致，如果不同，说明当前的 location 已被修改，重新获取 oldTable
     if (haveOld  &&  *location != oldObj) {
         SideTable::unlockTwo<haveOld, haveNew>(oldTable, newTable);
         goto retry;
     }
 
-	 
+     
     // 为防止弱引用和+initialize之间的死锁
     // 下面代码确保弱引用指针指向的对象是一个初始化好的类
     if (haveNew  &&  newObj) {
@@ -96,7 +96,7 @@ static id storeWeak(id *location, objc_object *newObj)
         weak_unregister_no_lock(&oldTable->weak_table, oldObj, location);
     }
 
-	// 分配新值
+    // 分配新值
     if (haveNew) {
         newObj = (objc_object *)
             weak_register_no_lock(&newTable->weak_table, (id)newObj, location, 
@@ -122,7 +122,7 @@ static id storeWeak(id *location, objc_object *newObj)
 
 三者的关系如图：
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/weak指针/sideTables.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/weak%E6%8C%87%E9%92%88/sideTables.png?raw=true)
 
 在了解 weak 工作原理之前我们需要对这三个数据结构要有大概的认识。
 
@@ -147,14 +147,14 @@ class StripedMap {
     };
 
     PaddedT array[StripeCount];
-	
-	// hash 表的查找算法
+    
+    // hash 表的查找算法
     static unsigned int indexForPointer(const void *p) {
         uintptr_t addr = reinterpret_cast<uintptr_t>(p);
         return ((addr >> 4) ^ (addr >> 9)) % StripeCount;
     }
 
-	// ...
+    // ...
 }
 ```
 
@@ -166,7 +166,7 @@ class StripedMap {
 
 ```
 struct SideTable {
-	// 自旋锁
+    // 自旋锁
     spinlock_t slock;
     // 引用计数表
     RefcountMap refcnts;
@@ -182,8 +182,8 @@ struct SideTable {
 #### RefcountMap
 
 `RefcountMap` 是一个 C++ 的map，通过对象指针寻找对应的引用计数（`table.refcnts.find(this)`）。
-
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/weak指针/RefcountMap.png)
+****
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/weak%E6%8C%87%E9%92%88/RefcountMap.png?raw=true)
 
 `RefcountMap `存放的是个8字节的一个无符号整型，其结构如上图中的右部分。
 
@@ -196,7 +196,7 @@ struct SideTable {
 
 ### `weak_table_t`
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/weak指针/weak_table_t.png)
+![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/weak%E6%8C%87%E9%92%88/weak_table_t.png?raw=true)
 
 `weak_table_t`是全局的弱引用表，会将被弱引用的对象做为key，`weak_entries`作为value。
 
@@ -216,7 +216,7 @@ struct weak_entry_t {
             weak_referrer_t  inline_referrers[4];
         };
     };
-	// ...
+    // ...
 }
 ```
 
@@ -300,7 +300,6 @@ static inline uint32_t ptr_hash(uint64_t key)
     return (uint32_t)key;
 }
 ```
-
 至此，weak指针就被转换成`weak_entry_t`的结构体存放在了`SideTable`中的`weak_table`中。
 
 ## weak指针置nil
