@@ -1,4 +1,4 @@
-# Runloop系列_(1)
+# Runloop系列
 
 
 > 本文很大一部分内容来源[ibireme-深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)，网上很大一部分都是copy ibireme 博主。本文结合了MJ视频同时借鉴了ibireme的文章内容。
@@ -10,7 +10,14 @@ runloop顾名思义"运行循环"，不退出线程的情况下循环处理一�
 
 runloop 的应用主要包括：
 
-- 定时器（Timer）、PerformSelector- GCD Async Main Queue- 事件响应、手势识别、界面刷新- 网络请求- 自动释放池 AutoreleasePool### 没有runloop
+- 定时器（Timer）、PerformSelector
+- GCD Async Main Queue
+- 事件响应、手势识别、界面刷新
+- 网络请求
+- 自动释放池 AutoreleasePool
+
+
+### 没有runloop
 
 ```
 int main(int argc, char * argv[]) {
@@ -49,11 +56,13 @@ int main(int argc, char * argv[]) {
 }
 
 ```
-## Runloop 对象
+
+## Runloop 对象
 
 iOS 中有2套 API 都可以获得 Runloop 对象，分别是：
 
-- Foundation：NSRunLoop- Core Foundation：CFRunLoopRef
+- Foundation：NSRunLoop
+- Core Foundation：CFRunLoopRef
 
 
 ```
@@ -101,7 +110,9 @@ struct __CFRunLoop {
     //---- __CFRunLoop主要成员------
    // others..
 };
-```runloop 中包含若干个 `Mode`， 其中集合`CFMutableSetRef _modes;`存放`CFRunLoopModeRef`对象, `_currentMode`也是`CFRunLoopModeRef`对象，代表 runloop 当前是在哪个`Mode`下。`_commonModeItems` 和 `_commonModes ` 通过kCFRunLoopCommonModes (NSRunLoopCommonModes)标记分别存放的`item(Source/Observer/Timer)`和`Mode`(主线程的 RunLoop 里会有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode)。
+```
+
+runloop 中包含若干个 `Mode`， 其中集合`CFMutableSetRef _modes;`存放`CFRunLoopModeRef`对象, `_currentMode`也是`CFRunLoopModeRef`对象，代表 runloop 当前是在哪个`Mode`下。`_commonModeItems` 和 `_commonModes ` 通过kCFRunLoopCommonModes (NSRunLoopCommonModes)标记分别存放的`item(Source/Observer/Timer)`和`Mode`(主线程的 RunLoop 里会有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode)。
 
 每当 RunLoop 的内容发生变化时，RunLoop 都会自动将` _commonModeItems` 里的 `Source/Observer/Timer` 同步到具有 `Common` 标记的所有Mode里。
 
@@ -127,7 +138,8 @@ struct __CFRunLoopMode {
 
 runloop 中包含多个 `Mode`，而每个`Mode`都有自己的`_sources0 `、`_sources1`、`_observers`、`_timers`，目前常用的 Mode 主要有两种：
 
-- kCFRunLoopDefaultMode（NSDefaultRunLoopMode）：App的默认Mode，通常主线程是在这个Mode下运行。- UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。
+- kCFRunLoopDefaultMode（NSDefaultRunLoopMode）：App的默认Mode，通常主线程是在这个Mode下运行。
+- UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。
 - [其它Mode](http://iphonedevwiki.net/index.php/CFRunLoop)
 
 
@@ -281,7 +293,8 @@ Source1主要是基于 port 的线程间通信。
 - NSTimer的唤醒
 
 ![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_timer.png?raw=true)
-- performSelector:withObject:afterDelay:
+
+- performSelector:withObject:afterDelay:
 
 ![](https://github.com/PhoenixiOSer/iOSLearning/blob/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/runloop/runloop_afeterDealy.png?raw=true)
 
@@ -333,7 +346,9 @@ Source1主要是基于 port 的线程间通信。
 }
 ```
 
-## ObserversObservers 主要用于监听RunLoop的状态，当runloop即将进入等待休眠的时候会有UI刷新、Autorelease pool释放。
+## Observers
+
+Observers 主要用于监听RunLoop的状态，当runloop即将进入等待休眠的时候会有UI刷新、Autorelease pool释放。
 
 `RunLoop`的状态主要有以下几种：
 
