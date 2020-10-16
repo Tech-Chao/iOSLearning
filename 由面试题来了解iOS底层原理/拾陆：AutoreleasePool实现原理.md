@@ -32,7 +32,7 @@ int main(int argc, const char * argv[]) {
 
 通过`xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc  main.m `我们将代码编译生成 C++ 代码。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/NSAutoreleasePool/autoreleasepool_main.png)
+![](https://raw.githubusercontent.com/PhoenixiOSer/iOSLearning/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/NSAutoreleasePool/autoreleasepool_main.png)
 
 代码中的`@autoreleasepool{}`会转换成`__AtAutoreleasePool`的结构体对象。
 
@@ -80,7 +80,7 @@ class AutoreleasePoolPage
 
 成员变量`next`指向下一个自动释放对象地址的指针存放在当前的page的位置，而且每个 page 通过 `parent` 和 `child` 通过双向链表的形式连接。 `thread`记录当前page所在的线程，`AutoreleasePool`是与线程一一对应的.
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/NSAutoreleasePool/autoreleasePage.png)
+![](https://raw.githubusercontent.com/PhoenixiOSer/iOSLearning/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/NSAutoreleasePool/autoreleasePage.png)
 
 
 自动释放的对象从上图的红色 begin 箭头处开始存放，当一个 page 存放达到上限后，会在创建一个 page 并通过`parent` 和 `child`两个指针关联这两个page对象。以此类推每个page都存放了。
@@ -230,7 +230,7 @@ int main(int argc, const char * argv[]) {
 int main(int argc, const char * argv[]) {
      atautoreleasepoolobj1 = objc_autoreleasePoolPush();
         NSObject *obj1 = [[NSObject alloc] init];
-    	 atautoreleasepoolobj2 = objc_autoreleasePoolPush();
+         atautoreleasepoolobj2 = objc_autoreleasePoolPush();
         NSObject *obj2 = [[NSObject alloc] init];
         NSObject *obj3 = [[NSObject alloc] init];
            atautoreleasepoolobj3 = objc_autoreleasePoolPush();
@@ -245,7 +245,7 @@ int main(int argc, const char * argv[]) {
 
 每层的嵌套，都会调用一次`objc_autoreleasePoolPush`函数，在`objc_autoreleasePoolPush`时会有一次入栈操作（`POOL_BOUNDARY`入栈）。作为这一层`autoreleasepool`pop的停止边界，大概的结构如下图。
 
-![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/NSAutoreleasePool/nest_autoreleasepool.png)
+![](https://raw.githubusercontent.com/PhoenixiOSer/iOSLearning/master/Assets/%E7%94%B1%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E4%BA%86%E8%A7%A3iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/NSAutoreleasePool/nest_autoreleasepool.png)
 
 
 
