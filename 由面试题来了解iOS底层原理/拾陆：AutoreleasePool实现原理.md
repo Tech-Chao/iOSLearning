@@ -13,10 +13,10 @@
 
 ## NSAutoreleasePool
 
-在 MRC 的时代，我们可以通过 `NSAutoreleasePool` 类或者`@autoreleasepool`创建自动释放池子,并调用对象的`autorelease`方法，将对象放入自动释放池子中。
+在 MRC 的时代，我们通过 `NSAutoreleasePool` 类或者`@autoreleasepool`创建自动释放池子,并调用对象的`autorelease`方法，将对象放入自动释放池子中。
 
 ```
-// MRC
+// main.m MRC环境
 #import <Foundation/Foundation.h>
 #import "Person.h"
 
@@ -45,14 +45,14 @@ struct __AtAutoreleasePool {
 
 ```
 
-在上图中`__AtAutoreleasePool __autoreleasepool;`首先会调用构造函数`objc_autoreleasePoolPush()`，将对象放入自动释放池中，再当结构体的局部对象`__autoreleasepool`离开作用域后，调用系统函数`objc_autoreleasePoolPop(atautoreleasepoolobj)`对自动释放池内的对象计算器-1操作。
+在上图中`__AtAutoreleasePool __autoreleasepool;`首先会调用结构体的构造函数`objc_autoreleasePoolPush()`，将对象放入自动释放池中，再当结构体的局部对象`__autoreleasepool`离开作用域后，调用析构函数`objc_autoreleasePoolPop(atautoreleasepoolobj)`对自动释放池内的对象进行一次`release`操作。
 
 ## AutoreleasePool 结构
-现在我们知道了`autoreleasepool`是通过`__AtAutoreleasePool`的构造函数、析构函数来创建和释放的了，那么`autoreleasepool`又是如何组织、存放哪些放入自动释放池的对象的呢?
+`autoreleasepool`通过`__AtAutoreleasePool`的构造函数、析构函数来创建和释放的了，那么`autoreleasepool`又是如何组织、存放自动释放池的对象的呢?
 
-通过在 obj4 的源码中，我们可以在 `NSObject.mm` 找到 `objc_autoreleasePoolPush`的实现。它主要是调用了`AutoreleasePoolPage`类的类方法`push`，返回了`AutoreleasePoolPage`对象。 
+让我通过 obj4 的源码来一探究竟，首先我们可以在 `NSObject.mm` 找到 `objc_autoreleasePoolPush`的实现。它主要是调用了`AutoreleasePoolPage`类的类方法`push`，返回`AutoreleasePoolPage`对象。 
 
-在`objc_autoreleasePoolPop`函数中也是对`AutoreleasePoolPage`对象进行操作。可想而知`autoreleasepool`对自动释放对象的管理就是通过`AutoreleasePoolPage`。
+在`objc_autoreleasePoolPop`函数中也是对`AutoreleasePoolPage`对象进行操作。可以推断出`autoreleasepool`自定释放池对自动释放对象的管理正是通过`AutoreleasePoolPage`对象来实现的。
 
 
 ```
@@ -78,12 +78,12 @@ class AutoreleasePoolPage
 
 在 `AutoreleasePoolPage `类中定义了Page的空间大小`PAGE_MAX_SIZE = 4096 个字节`，除去上面代码中存放内部的成员变量外，所有剩下的空间都是用来存放 `autorelease` 的对象地址（8字节）。
 
-成员变量的意义`id *next;`存放了下一个对象地址的指针，而且每个 page 通过 `parent` 和 `child` 通过双向链表的形式连接。
+成员变量`next`指向下一个自动释放对象地址的指针存放在当前的page的位置，而且每个 page 通过 `parent` 和 `child` 通过双向链表的形式连接。 `thread`记录当前page所在的线程，`AutoreleasePool`是与线程一一对应的.
 
 ![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/NSAutoreleasePool/autoreleasePage.png)
 
 
-autorelease的对象存放从上图的 begin 处开始，当一个 page 存放达到上限后，会在创建一个 page 并通过`parent` 和 `child`两个指针关联这两个page对象。以此类推每个page都存放了。
+自动释放的对象从上图的红色 begin 箭头处开始存放，当一个 page 存放达到上限后，会在创建一个 page 并通过`parent` 和 `child`两个指针关联这两个page对象。以此类推每个page都存放了。
 
 ## AutoreleasePool 工作流程
 
@@ -123,19 +123,20 @@ int main(int argc, const char * argv[]) {
 
 ```
 
-首先会压入一个 `nil` 来作为边界，同时返回当前压入的地址值，用作 pop 时的终点。调用`autorelease`方法的对象会调用`AutoreleasePoolPage` 的 `add` 函数添加到 page 中。
+首先会将`POOL_BOUNDARY（一个nil对象）`入栈，并返回当前压入栈中的地址值，用作 pop 时的终点。调用`autorelease`方法的对象会调用到 `AutoreleasePoolPage` 的 `autoreleaseFast` 函数，添加到 page 中，在`objc_autoreleasePoolPop`函数调用时会将`POOL_BOUNDARY`的地址值传入，用作自动释放池`pop`的停止边界。
 
 当然系统会考虑到很多情况，比如当前的`page`情况比如是否存在、`page`是否满了。大概的过程如下：
 
-- 如果存在page、且未满会直接通过next指针将对象地址存放在`next`中,存在page、
-- 如果page 存在且满了，会创建一个新的page再压入`POOL_BOUNDARY`,在添加`autorelease`对象，然后通过`parent` 和 `child`将上下两个page关联
-- 如果page都不存在那么会创建一个新的page、压入`POOL_BOUNDARY`添加`autorelease`对象。
+- 如果存在page、且未满会直接通过next指针将对象地址存放在`next`中,存在page。
+- 如果page 存在且满了，会创建一个新的page再压入`POOL_BOUNDARY`,再添加`autorelease`对象，然后通过`parent` 和 `child`将上下两个page关联
+- 如果page都不存在那么会创建一个新的page、压入`POOL_BOUNDARY`后再添加`autorelease`对象。
 
 
 ### objc_autoreleasePoolPop
-`objc_autoreleasePoolPop(atautoreleasepoolobj)`开始自动释放池的释放。其中`atautoreleasepoolobj`就是我们push时返回的边界地址。让我们可以知道在pop的边界。
+`objc_autoreleasePoolPop(atautoreleasepoolobj)`自动释放池的开始释放。其中`atautoreleasepoolobj`就是我们`push`时返回的边界地址(`POOL_BOUNDARY `)。`objc_autoreleasePoolPop`对调用`AutoreleasePoolPage`的`pop`方法，如下。
 
 ```
+// token == atautoreleasepoolobj  == 每次 push 时的`POOL_BOUNDARY `
   static inline void pop(void *token) 
     {
         AutoreleasePoolPage *page;
@@ -196,11 +197,70 @@ int main(int argc, const char * argv[]) {
     }
 ```
 主要是三个操作
-- 使用 pageForPointer 获取当前 token 所在的 AutoreleasePoolPage
-- 调用 releaseUntil 方法释放栈中的对象，直到 stop 边界。
-- 调用 child 的 kill 方法
+
+- 使用 pageForPointer 获取当前 token 所在的 page,
+- 调用 releaseUntil 方法释放栈中的对象，直到 stop 边界（即push时返回的`POOL_BOUNDARY`地址）。
+- 调用 child 的 kill 方法，删除空的`child` page 对象。
+
+## 延伸1： AutoReleasePool的循环嵌套
+
+有时候我们会碰到`AutoReleasePool`嵌套的情况，那么自动释放的对象又是如何组织和管理的呢？
+
+```
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        NSObject *obj1 = [[NSObject alloc] init];
+        
+    @autoreleasepool {
+        NSObject *obj2 = [[NSObject alloc] init];
+        NSObject *obj3 = [[NSObject alloc] init];
+        
+          @autoreleasepool {
+              NSObject *obj4 = [[NSObject alloc] init];
+            }
+      }
+    }
+    return 0;
+}
+```
+
+按照我们之前对 `autoreleasepool`的理解后，我们可以将代码转换成：
+
+```
+int main(int argc, const char * argv[]) {
+     atautoreleasepoolobj1 = objc_autoreleasePoolPush();
+        NSObject *obj1 = [[NSObject alloc] init];
+    	 atautoreleasepoolobj2 = objc_autoreleasePoolPush();
+        NSObject *obj2 = [[NSObject alloc] init];
+        NSObject *obj3 = [[NSObject alloc] init];
+           atautoreleasepoolobj3 = objc_autoreleasePoolPush();
+              NSObject *obj4 = [[NSObject alloc] init];
+            objc_autoreleasePoolPop(atautoreleasepoolobj3)
+      objc_autoreleasePoolPop(atautoreleasepoolobj2)
+    objc_autoreleasePoolPop(atautoreleasepoolobj1)
+    return 0;
+}
+```
+ 
+
+每层的嵌套，都会调用一次`objc_autoreleasePoolPush`函数，在`objc_autoreleasePoolPush`时会有一次入栈操作（`POOL_BOUNDARY`入栈）。作为这一层`autoreleasepool`pop的停止边界，大概的结构如下图。
+
+![](/Users/gaolailong/Documents/iOSLearningManual/Assets/由面试题来了解iOS底层原理/NSAutoreleasePool/nest_autoreleasepool.png)
 
 
+
+
+## 延伸2： Runloop 与AutoReleasePool的关系
 注意：在上文提到过在`mainRunloop`中存在`RunLoopObserver`,分别监听了 runloop 的 ①. 进入（Entry）、②. BeforeWaiting(准备进入休眠)和Exit(即将退出Loop),会自动调用`_objc_autoreleasePoolPush()` 、`_objc_autoreleasePoolPop()` 所以一般情况下我们可以不用自己手动的去创建`autoreleasePool`
+
+## 延伸3： autorelease对象在什么时候释放
+
+autorelease对象的释放在不同场景下释放的时机不一样，
+
+- autorelease对象直接是由`@autorelasepool{}`包裹，那么autorelease对象会在`@autorelasepool{}`的大括号之后释放。
+- 没有显式使用`@autorelasepool{}`，会根据某次Runloop循环中调用`_objc_autoreleasePoolPop()`释放（可能是在runloop休眠之前或者退出runloop时）。
+
+tip: ARC模式下，方法内的局部变量会在方法的大括号之后就会被释放，ARC模式下可能直接插入的 release 方法。
+
 
 
