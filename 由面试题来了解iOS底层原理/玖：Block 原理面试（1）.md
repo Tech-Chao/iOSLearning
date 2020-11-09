@@ -130,10 +130,10 @@ block->FuncPtr(block,20,20);
 
 #### 捕获auto变量
 
-简单的 auto 变量地址捕获:
+简单的 auto 变量地址捕获(局部变量默认 auto 修饰):
 
 ```
-	  // 局部变量默认 auto 修饰
+
      int age = 10;  // 相当于 auto int age = 10;
      void(^block)(void) =  ^{
          NSLog(@"age is %d",age);
@@ -160,7 +160,7 @@ struct __main_block_impl_0 {
 };
 ```
 
-在上面的`__main_block_impl_0 `结构体中新增加一个 `int age;`成员。`__main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _age, int flags=0): age(_age) `构造方法也有了一个 `_age`参数 函数将 `_age` 赋值给了结构体的 age 成员属于值传递。
+在上面的`__main_block_impl_0 `结构体中新增加一个 `int age;`成员。`__main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _age, int flags=0): age(_age) `构造方法也有了一个 `_age`参数 函数将 `_age` 赋值给了结构体的 age 成员。
 
 
 ```
@@ -171,7 +171,7 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 }
 ```
 
-在执行 block 中的代码块函数时，`__main_block_impl_0 `中的 age 是值传递与局部变量 age 无关，所以即使外部的 age 变量修改了值。也是不会影响 block 中早已捕获的 age。
+所以捕获局部变量属于值传递。在执行 block 中的代码块函数时，`__main_block_impl_0 `中的 age 是值传递与局部变量 age 无关，所以即使外部的 age 变量修改了值。也是不会影响 block 中早已捕获的 age。
 
 #### 捕获static变量
 
@@ -199,7 +199,7 @@ age is 20
 
 ```
 
-和之前 auto 变量比较，static 传递的参数是 `age`的地址属于地址传递，`__main_block_impl_0` 的成员 `int *age` 存放的是 age 的地址，访问的是同一块内存，所以 age 在外部更改之后，block 中的 age 指向的值也会变动。
+和之前 auto 变量比较，static 传递的参数是 `age`的地址属于地址传递，`__main_block_impl_0` 的成员 `int *age` 存放的是 age 的地址，访问的是同一块内存，所以 age 在外部更改之后，block 中的 age 值也会变动。
 
 ```
 
@@ -216,7 +216,7 @@ struct __main_block_impl_0 {
 };
 ```
 
-局部变量捕获 auto 和 static 的区别
+**局部变量捕获 auto 和 static 的区别**
 
 - auto 变量会在作用域之后销毁，所以 block 会将 age 进行值传递，并存放` __main_block_impl_0 `成员 age 中，用于以后可以随时访问。
 -  static 的变量在初始化后会一直存放内存中，所以我们可以通过地址直接访问，不用担心变量作用域的问题，block 结构体的构造方法传递的是静态变量 age 的地址。
@@ -394,7 +394,7 @@ enum {
    block();   
 ```
 
-使用`xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-13.0.0 main.m`clang 编译后``__main_block_impl_0``区别在于 weakPerson是弱引用:
+使用`xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-13.0.0 main.m`clang 编译后``__main_block_impl_0``区别在于 weakPerson是弱引用（对应前文提到过的根据外部变量的修饰符生成对应修饰符）:
 
 ```
 struct __main_block_impl_0 {
