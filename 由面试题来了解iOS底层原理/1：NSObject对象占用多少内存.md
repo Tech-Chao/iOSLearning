@@ -2,11 +2,10 @@
 
 > 题目：一个NSObject对象占用多少内存?
 
-
 首先回答题目：
 
 - 系统分配了16个字节给 NSObject 对象（通过 `malloc_size` 函数获得）
-- 但NSObject对象内部只使用了8个字节的空间（64bit环境下，可以通过`class_getInstanceSize`函数获得）。
+- 但NSObject对象内部只使用了8个字节的空间（64位环境下，可以通过`class_getInstanceSize`函数获得）。
 
 ## 为啥是8个字节？
 
@@ -17,26 +16,24 @@
 NSObject *obj = [[NSObject alloc] init];
 ```
 
-通过以下的命令行可以编译生成64位架构的 iPhone C/C++ 代码。
+通过以下的命令行可以编译生成针对64位架构 iPhone 的 C/C++ 代码。
 
 ```
 xcrun  -sdk  iphoneos  clang  -arch  arm64  -rewrite-objc  main.m  -o  main.cpp
 ```
 
-可以看到在同文件目录下生成了 main.cpp 文件，
-
-在 cpp 文件中我们可以看到 NSObject 实现:
+可以看到在同文件目录下生成了 main.cpp 文件，在 .cpp 文件中我们可以看到 NSObject 实现:
 
 ```
 typedef struct objc_class *Class;
 
 struct NSObject_IMPL {
-	Class isa; // 相当于   struct objc_class *isa
+	Class isa; // 相当于  struct objc_class *isa
 };
 
 ```
 
-NSObject 包含一个结构体的指针。 在64为的系统上指针占用 8 个字节（32位系统4个字节），所以 NSObject 在64位上占用 8 字节。
+NSObject 包含一个结构体的指针, 在64为的系统上指针占用 8 个字节（32位系统4个字节），所以 NSObject 在64位上占用 8 字节。
 
 
 ## 为啥是16字节？
